@@ -64,11 +64,11 @@ assign(QueryCompiler_PG.prototype, {
   },
 
   forUpdate() {
-    return 'for update';
+    return '';
   },
 
   forShare() {
-    return 'for share';
+    return '';
   },
 
   // Compiles a columnInfo query

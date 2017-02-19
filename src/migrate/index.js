@@ -175,7 +175,7 @@ export default class Migrator {
     return this.knex.transaction(trx => {
       return this._isLocked(trx)
         .then(isLocked => {
-          if (isLocked) {
+          if (isLocked === 1 || isLocked === true) {
             throw new Error("Migration table is already locked");
           }
         })

@@ -130,9 +130,16 @@ assign(Client_PG.prototype, {
   // checking on the database.
   checkVersion(connection) {
     return new Promise(function(resolver, rejecter) {
-      connection.query('select version();', function(err, resp) {
+      connection.query('select version() as version;', function(err, resp) {
         if (err) return rejecter(err);
-        resolver(/^PostgreSQL (.*?)( |$)/.exec(resp.rows[0].version)[1]);
+        const rawVersion = resp.rows[0].version;
+        let version = '';
+        if (rawVersion.indexOf('Postgres') > -1) {
+          version = /^PostgreSQL (.*?)( |$)/.exec(rawVersion)[1];
+        } else {
+          version = /^CockroachDB CCL (.*?)( |$)/.exec(rawVersion)[1];
+        }
+        resolver(version);
       });
     });
   },
